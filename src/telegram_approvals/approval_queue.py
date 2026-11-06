@@ -157,10 +157,10 @@ class ApprovalQueue:
         _check_text(action, MAX_ACTION_UNITS, "action")
         _check_text(summary, MAX_SUMMARY_UNITS, "summary")
         with self._lock:
+            victim = self._eviction_victim()
             request_id = self._id_factory()
             self._check_id(request_id)
             now = self._now()
-            victim = self._eviction_victim()
             text = f"<b>{_escape(action)}</b>\n{_escape(summary)}"
             buttons = [
                 ("Approve", self._callback_data("a", request_id)),
