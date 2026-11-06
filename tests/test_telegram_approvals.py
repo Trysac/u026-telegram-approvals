@@ -30,7 +30,7 @@ SECRET = bytes(range(32))
 T0 = datetime(2025, 1, 1, 12, 0, tzinfo=timezone.utc)
 APPROVE_R1 = "a:r1:8WW5oYyX46JNn7plEWtpa4uX"
 REJECT_R1 = "r:r1:QGmaRbzBmX6Z7vVhgbI-EKBI"
-EMOJI = "\U0001F600"
+EMOJI = "\U0001f600"
 PENDING = ApprovalState.PENDING
 APPROVED = ApprovalState.APPROVED
 REJECTED = ApprovalState.REJECTED
@@ -612,9 +612,11 @@ def test_nothing_sensitive_leaks(caplog: pytest.LogCaptureFixture) -> None:
     h.queue.request(action, summary)
     attempt(lambda: h.queue.request(action, "x" * 5000))
     for index, (data, user) in enumerate(p.values for p in FORGED):
-        attempt(lambda data=data, user=user, index=index: h.queue.handle_callback(
-            f"f{index}", data, user
-        ))
+        attempt(
+            lambda data=data, user=user, index=index: h.queue.handle_callback(
+                f"f{index}", data, user
+            )
+        )
     attempt(lambda: h.queue.handle_callback("g1", data_for("a", "ghost"), 42))
     attempt(lambda: h.queue.handle_callback("m1", "a:r1:" + "A" * 59, 42))
     attempt(lambda: h.queue.handle_callback("q1", APPROVE_R1, 42))
