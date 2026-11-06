@@ -1,0 +1,16 @@
+# telegram-approvals
+
+> Human approval queue for agent actions with HMAC-signed Telegram inline buttons, approver allow list, expiry and a bounded audit trail Python package `trysac-telegram-approvals`, import name `telegram_approvals`, MIT licensed,
+> Python >= 3.10, no runtime dependencies.
+
+## Docs
+
+- [README](README.md): problem, install, usage example
+- [AGENTS](AGENTS.md): commands, folder map, conventions, limits
+- [Architecture](docs/ARCHITECTURE.md): shape of the package and its public API
+- [Testing](docs/TESTING.md): how to run and extend the tests
+
+## Optional
+
+- [Stack](docs/STACK.md): tools used and discarded
+- [Changelog](CHANGELOG.md): release history
