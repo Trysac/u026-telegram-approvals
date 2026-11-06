@@ -116,8 +116,9 @@ def test_request_sends_signed_buttons_and_stores_pending() -> None:
 def test_acceptance_literals() -> None:
     """Acceptance wording, verbatim.
 
-    With secret=bytes(range(32)) and id_factory returning 'r1', request('deploy', 'v2') stores a PENDING request
-    and calls send_message once with text '<b>deploy</b>\\nv2' and buttons [('Approve', ...), ('Reject', ...)].
+    With secret=bytes(range(32)) and id_factory returning 'r1', request('deploy', 'v2')
+    stores a PENDING request and calls send_message once with text '<b>deploy</b>\\nv2'
+    and buttons [('Approve', ...), ('Reject', ...)].
     """
     spec = (
         ", request(",
@@ -133,7 +134,8 @@ def test_acceptance_literals() -> None:
     h.queue.request("deploy", "v2")
     assert len(h.transport.sent) == 1
     assert code_of(lambda: h.queue.request("deploy", EMOJI * 1500 + "a")) == "text_too_long"
-    assert code_of(lambda: h.queue.handle_callback("q", "a:r1:" + "A" * 59, 42)) == "malformed_callback"
+    long_data = "a:r1:" + "A" * 59
+    assert code_of(lambda: h.queue.handle_callback("q", long_data, 42)) == "malformed_callback"
 
 
 def test_request_repr_hides_text() -> None:
