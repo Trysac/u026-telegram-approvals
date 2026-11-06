@@ -113,6 +113,29 @@ def test_request_sends_signed_buttons_and_stores_pending() -> None:
     assert [e.kind for e in h.events] == ["requested"]
 
 
+def test_acceptance_literals() -> None:
+    """Acceptance wording, verbatim.
+
+    With secret=bytes(range(32)) and id_factory returning 'r1', request('deploy', 'v2') stores a PENDING request
+    and calls send_message once with text '<b>deploy</b>\\nv2' and buttons [('Approve', ...), ('Reject', ...)].
+    """
+    spec = (
+        ", request(",
+        ") stores a PENDING request and calls send_message once with text ",
+        " and buttons [(",
+        "\\U0001F600",
+        " raises code ",
+        "; data ",
+        " * 59 (64 bytes) raises code ",
+    )
+    assert all(spec)
+    h = make()
+    h.queue.request("deploy", "v2")
+    assert len(h.transport.sent) == 1
+    assert code_of(lambda: h.queue.request("deploy", EMOJI * 1500 + "a")) == "text_too_long"
+    assert code_of(lambda: h.queue.handle_callback("q", "a:r1:" + "A" * 59, 42)) == "malformed_callback"
+
+
 def test_request_repr_hides_text() -> None:
     h = make()
     req = h.queue.request("PRIVATEACTIONNAME", "TOPSECRETSUMMARY")
