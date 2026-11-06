@@ -9,4 +9,5 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Add `ApprovalQueue`: human approval queue for agent actions with HMAC-signed Telegram inline buttons, presser allow list, expiry, bounded request store and audit trail, a `TelegramTransport` protocol and an offline `FakeTransport`.
 - Initial project structure from the factory utility template.
